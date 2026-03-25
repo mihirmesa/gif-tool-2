@@ -64,7 +64,7 @@ const CATEGORIES = [
 ];
 
 const GIPHY_SEARCH_URL = "https://api.giphy.com/v1/gifs/search";
-let GIPHY_API_KEY = localStorage.getItem("giphy_api_key") || "";
+const GIPHY_API_KEY = "fbdypjBzqGCnYCeJykM4KuWLVP7aVrD6";
 
 // DOM Elements
 const phraseInput = document.getElementById("phrase-input");
@@ -362,12 +362,12 @@ async function generatePersonalizedGif() {
         const response = await fetch(currentGifUrl, { cache: "no-store", mode: "cors" });
         if (!response.ok) throw new Error("Could not fetch GIF");
         const buffer = await response.arrayBuffer();
-        
+
         const { parseGIF, decompressFrames } = await import('https://esm.sh/gifuct-js@2.1.2');
         const gifBuffer = new Uint8Array(buffer);
         const gif = parseGIF(gifBuffer);
         const frames = decompressFrames(gif, true);
-        
+
         if (!frames || frames.length === 0) throw new Error("No frames found");
 
         const width = frames[0].dims.width;
@@ -378,7 +378,7 @@ async function generatePersonalizedGif() {
             quality: 10,
             width: width,
             height: height,
-            workerScript: 'gif.worker.js' 
+            workerScript: 'gif.worker.js'
         });
 
         const canvas = document.createElement("canvas");
@@ -399,7 +399,7 @@ async function generatePersonalizedGif() {
 
         for (let i = 0; i < frames.length; i++) {
             const frame = frames[i];
-            
+
             if (frame.disposalType === 3 && previousImageData === null) {
                 previousImageData = frameCtx.getImageData(0, 0, width, height);
             }
@@ -409,7 +409,7 @@ async function generatePersonalizedGif() {
                 frame.dims.width,
                 frame.dims.height
             );
-            
+
             frameCtx.putImageData(patchData, frame.dims.left, frame.dims.top);
 
             ctx.clearRect(0, 0, width, height);
@@ -417,11 +417,11 @@ async function generatePersonalizedGif() {
 
             // ----- DRAW TEXT OVERLAY -----
             if (text) {
-                const fontSize = Math.max(16, Math.floor(width / 10)); 
+                const fontSize = Math.max(16, Math.floor(width / 10));
                 ctx.font = `900 ${fontSize}px "Impact", "Arial Black", sans-serif`;
                 ctx.textAlign = "center";
                 ctx.textBaseline = pos === "top" ? "top" : "bottom";
-                
+
                 const padding = 10;
                 const x = width / 2;
                 let y = pos === "top" ? padding : height - padding;
@@ -429,7 +429,7 @@ async function generatePersonalizedGif() {
                 const words = text.split(" ");
                 let line = "";
                 const lines = [];
-                
+
                 for (let n = 0; n < words.length; n++) {
                     const testLine = line + words[n] + " ";
                     const metrics = ctx.measureText(testLine);
@@ -461,9 +461,9 @@ async function generatePersonalizedGif() {
 
             encoder.addFrame(ctx, { delay: frame.delay, copy: true });
 
-            if (frame.disposalType === 2) { 
+            if (frame.disposalType === 2) {
                 frameCtx.clearRect(frame.dims.left, frame.dims.top, frame.dims.width, frame.dims.height);
-            } else if (frame.disposalType === 3 && previousImageData) { 
+            } else if (frame.disposalType === 3 && previousImageData) {
                 frameCtx.putImageData(previousImageData, 0, 0);
             }
             if (frame.disposalType !== 3) previousImageData = null;
