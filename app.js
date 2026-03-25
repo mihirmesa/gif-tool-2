@@ -61,17 +61,14 @@ const modalOverlay = document.getElementById("modal-overlay");
 const modalGif = document.getElementById("modal-gif");
 const modalClose = document.getElementById("modal-close");
 const copyLinkBtn = document.getElementById("copy-link-btn");
-const copyGifBtn = document.getElementById("copy-gif-btn");
 const downloadBtn = document.getElementById("download-btn");
 const toast = document.getElementById("toast");
 
-const personalizeToggle = document.getElementById("personalize-toggle");
-const personalizeBody = document.getElementById("personalize-body");
 const overlayTextInput = document.getElementById("overlay-text");
 const textPreview = document.getElementById("text-preview");
-const posBtns = document.querySelectorAll(".toggle-btn[data-pos]");
-const textColorPicker = document.getElementById("text-color");
-const toggleOutlineBtn = document.getElementById("toggle-outline");
+const previewInnerText = document.getElementById("preview-inner-text");
+const suggestionChips = document.getElementById("suggestion-chips");
+const tonePills = document.getElementById("tone-pills");
 const generateGifBtn = document.getElementById("generate-gif-btn");
 const generateText = document.getElementById("generate-text");
 const progressContainer = document.getElementById("progress-container");
@@ -81,6 +78,7 @@ let currentGifUrl = "";
 let currentGifDownloadUrl = "";
 let customGifBlobUrl = null;
 let activeChip = null;
+let currentTone = "friendly";
 
 // Initialize
 function init() {
@@ -108,34 +106,36 @@ function bindEvents() {
     modalClose.addEventListener("click", closeModal);
     modalOverlay.addEventListener("click", (e) => { if (e.target === modalOverlay) closeModal(); });
     document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
-    copyLinkBtn.addEventListener("click", () => copyToClipboard(currentGifUrl));
-    copyGifBtn.addEventListener("click", copyGifToClipboard);
-    downloadBtn.addEventListener("click", downloadGif);
+    copyLinkBtn.addEventListener("click", () => copyToClipboard(customGifBlobUrl || currentGifUrl));
+    if (downloadBtn) downloadBtn.addEventListener("click", downloadGif);
 
     // Personalize UI
-    personalizeToggle.addEventListener("click", () => {
-        personalizeBody.classList.toggle("open");
-        personalizeToggle.classList.toggle("open");
+    overlayTextInput.addEventListener("input", (e) => { 
+        const text = e.target.value.trim();
+        previewInnerText.textContent = text || "Your Message Here";
+        textPreview.style.opacity = text ? "1" : "0.7";
     });
 
-    overlayTextInput.addEventListener("input", (e) => { textPreview.textContent = e.target.value; });
-
-    posBtns.forEach(btn => {
-        btn.addEventListener("click", () => {
-            posBtns.forEach(b => b.classList.remove("active"));
-            btn.classList.add("active");
-            textPreview.setAttribute("data-pos", btn.dataset.pos);
-        });
+    // Suggestions
+    suggestionChips.addEventListener("click", (e) => {
+        const chip = e.target.closest(".suggest-chip");
+        if (chip) {
+            overlayTextInput.value = chip.textContent;
+            overlayTextInput.dispatchEvent(new Event('input'));
+        }
     });
 
-    textColorPicker.addEventListener("input", (e) => { textPreview.style.color = e.target.value; });
-    toggleOutlineBtn.addEventListener("click", () => {
-        toggleOutlineBtn.classList.toggle("active");
-        textPreview.classList.toggle("no-outline");
+    // Tone Selector
+    tonePills.addEventListener("click", (e) => {
+        const pill = e.target.closest(".tone-pill");
+        if (pill) {
+            document.querySelectorAll(".tone-pill").forEach(p => p.classList.remove("active"));
+            pill.classList.add("active");
+            currentTone = pill.dataset.tone;
+        }
     });
 
     generateGifBtn.addEventListener("click", () => {
-        console.log("Generate Button Clicked");
         generatePersonalizedGif();
     });
 }
@@ -237,12 +237,17 @@ function openModal(card) {
     currentGifUrl = card.dataset.gifUrl;
     currentGifDownloadUrl = card.dataset.gifDownload;
     modalGif.src = currentGifUrl;
-    personalizeBody.classList.remove("open");
-    personalizeToggle.classList.remove("open");
-    textPreview.textContent = "";
+    previewInnerText.textContent = "Your Message Here";
+    textPreview.style.opacity = "0.7";
     overlayTextInput.value = "";
     customGifBlobUrl = null;
-    generateText.textContent = "Generate Personalized GIF";
+    generateText.textContent = "Make My GIF 🚀";
+    
+    // Reset Tone
+    document.querySelectorAll(".tone-pill").forEach(p => p.classList.remove("active"));
+    document.querySelector('[data-tone="friendly"]').classList.add("active");
+    currentTone = "friendly";
+
     modalOverlay.classList.add("active");
     document.body.style.overflow = "hidden";
 }
@@ -251,7 +256,7 @@ function closeModal() {
     document.body.style.overflow = "";
     setTimeout(() => {
         modalGif.src = "";
-        textPreview.textContent = "";
+        previewInnerText.textContent = "Your Message Here";
         if (customGifBlobUrl) { URL.revokeObjectURL(customGifBlobUrl); customGifBlobUrl = null; }
     }, 300);
 }
@@ -327,9 +332,6 @@ async function generatePersonalizedGif() {
         const frameCtx = frameCanvas.getContext("2d");
         frameCanvas.width = width; frameCanvas.height = height;
 
-        const pos = document.querySelector(".toggle-btn[data-pos].active").dataset.pos;
-        const color = textColorPicker.value;
-        const hasOutline = toggleOutlineBtn.classList.contains("active");
 
         let prevData = null;
         for (let i = 0; i < frames.length; i++) {
@@ -342,21 +344,34 @@ async function generatePersonalizedGif() {
             ctx.clearRect(0, 0, width, height);
             ctx.drawImage(frameCanvas, 0, 0);
 
-            // Text
-            const fontSize = Math.max(16, Math.floor(width / 10));
-            ctx.font = `900 ${fontSize}px Impact`;
-            ctx.textAlign = "center";
-            ctx.textBaseline = pos === "top" ? "top" : "bottom";
-            const x = width / 2;
-            const y = pos === "top" ? 10 : height - 10;
+            // Modern Pill Text Design
+            const fontSize = Math.max(16, Math.floor(width / 14));
+            ctx.font = `bold ${fontSize}px Inter, sans-serif`;
+            const textWidth = ctx.measureText(text).width;
+            
+            const paddingX = 24;
+            const paddingY = 12;
+            const pillWidth = textWidth + (paddingX * 2);
+            const pillHeight = fontSize + (paddingY * 2);
+            const pillX = (width - pillWidth) / 2;
+            const pillY = (height - pillHeight) / 2;
 
-            if (hasOutline) {
-                ctx.strokeStyle = "black";
-                ctx.lineWidth = 4;
-                ctx.strokeText(text, x, y);
-            }
-            ctx.fillStyle = color;
-            ctx.fillText(text, x, y);
+            // Draw Pill Background
+            ctx.fillStyle = "rgba(0, 0, 0, 0.75)";
+            ctx.beginPath();
+            ctx.roundRect(pillX, pillY, pillWidth, pillHeight, pillHeight/2);
+            ctx.fill();
+
+            // Draw White Border (subtle)
+            ctx.strokeStyle = "rgba(255, 255, 255, 0.2)";
+            ctx.lineWidth = 1;
+            ctx.stroke();
+
+            // Draw Text
+            ctx.fillStyle = "white";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText(text, width / 2, height / 2);
 
             encoder.addFrame(ctx, { delay: f.delay, copy: true });
 
@@ -375,7 +390,7 @@ async function generatePersonalizedGif() {
             generateText.textContent = "Success! Generated 🎉";
             setTimeout(() => {
                 progressContainer.style.display = "none";
-                generateText.textContent = "Generate Personalized GIF";
+                generateText.textContent = "Make My GIF 🚀";
             }, 3000);
         });
 

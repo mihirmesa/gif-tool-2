@@ -63,83 +63,72 @@
             </div>
         </section>
 
-        <!-- GIF Preview Modal -->
+        <!-- GIF Personalize Modal -->
         <div class="modal-overlay" id="modal-overlay">
-            <div class="modal" id="gif-modal">
+            <div class="modal modern-modal" id="gif-modal">
                 <button class="modal-close" id="modal-close">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M18 6L6 18"></path>
                         <path d="M6 6l12 12"></path>
                     </svg>
                 </button>
+
+                <!-- Modern Modal Header -->
+                <div class="modal-header">
+                    <h2 id="modal-title">✨ Personalize Your GIF</h2>
+                </div>
+
+                <!-- GIF Preview Card (Top) -->
                 <div class="modal-gif-container">
                     <div class="gif-wrapper" id="gif-wrapper">
                         <img id="modal-gif" src="" alt="GIF Preview">
-                        <div id="text-preview" class="text-preview"></div>
-                    </div>
-                </div>
-                
-                <div class="personalize-section">
-                    <div class="personalize-header" id="personalize-toggle">
-                        <span>✨ Personalize GIF</span>
-                        <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
-                    </div>
-                    <div class="personalize-body" id="personalize-body">
-                        <div class="form-group">
-                            <p class="input-helper">✨ Add your message and we'll place it on the GIF</p>
-                            <label for="overlay-text">Overlay Text</label>
-                            <input type="text" id="overlay-text" class="setup-input" placeholder="e.g. Hey Sarah!" autocomplete="off" maxlength="40">
+                        <div id="text-preview" class="pill-preview">
+                            <span id="preview-inner-text">Your Message Here</span>
+                            <span class="edit-icon">✏️</span>
                         </div>
-                        <div class="form-row">
-                            <div class="form-group half">
-                                <label>Position</label>
-                                <div class="toggle-group">
-                                    <button class="toggle-btn active" data-pos="top">Top</button>
-                                    <button class="toggle-btn" data-pos="bottom">Bottom</button>
-                                </div>
-                            </div>
-                            <div class="form-group half">
-                                <label>Style</label>
-                                <div class="toggle-group">
-                                    <input type="color" id="text-color" value="#ffffff" class="color-picker" title="Text Color">
-                                    <button class="toggle-btn active icon-btn" id="toggle-outline" title="Toggle Outline">A</button>
-                                </div>
-                            </div>
-                        </div>
-                        <button class="action-btn primary full-width" id="generate-gif-btn">
-                            <span id="generate-text">Generate Personalized GIF</span>
-                            <div class="progress-bar-container" id="progress-container" style="display: none;">
-                                <div class="progress-bar" id="progress-bar"></div>
-                            </div>
-                        </button>
                     </div>
                 </div>
 
-                <div class="modal-actions">
-                    <button class="action-btn secondary" id="copy-link-btn">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                            <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path>
-                        </svg>
-                        <span>Copy Link</span>
-                    </button>
-                    <button class="action-btn secondary" id="copy-gif-btn">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"></path>
-                            <polyline points="16 6 12 2 8 6"></polyline>
-                            <line x1="12" y1="2" x2="12" y2="15"></line>
-                        </svg>
-                        <span>Copy GIF</span>
-                    </button>
-                    <button class="action-btn tertiary" id="download-btn">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"></path>
-                            <polyline points="7 10 12 15 17 10"></polyline>
-                            <line x1="12" y1="15" x2="12" y2="3"></line>
-                        </svg>
-                        <span>Download</span>
-                    </button>
+                <!-- Personalization Controls (Below) -->
+                <div class="personalize-form">
+                    <div class="form-group">
+                        <input type="text" id="overlay-text" class="modern-input" placeholder="e.g. Congrats on the deal!" autocomplete="off" maxlength="40">
+                    </div>
+
+                    <!-- Quick Suggestions -->
+                    <div class="suggestion-chips" id="suggestion-chips">
+                        <button class="suggest-chip">Saw your post! 👀</button>
+                        <button class="suggest-chip">Let’s connect! 🤝</button>
+                        <button class="suggest-chip">This made me think of you 🔥</button>
+                    </div>
+
+                    <!-- Tone Selector -->
+                    <div class="tone-section">
+                        <span class="section-label">Tones</span>
+                        <div class="tone-pills" id="tone-pills">
+                            <button class="tone-pill active" data-tone="friendly">Friendly</button>
+                            <button class="tone-pill" data-tone="casual">Casual</button>
+                            <button class="tone-pill" data-tone="professional">Professional</button>
+                            <button class="tone-pill" data-tone="flirty">Flirty</button>
+                        </div>
+                    </div>
+
+                    <!-- CTA Buttons -->
+                    <div class="cta-group">
+                        <button class="action-btn primary large-btn" id="generate-gif-btn">
+                            <span id="generate-text">Make My GIF 🚀</span>
+                        </button>
+                        <button class="action-btn secondary outline-btn" id="copy-link-btn">
+                            <span>Copy GIF Link</span>
+                        </button>
+                    </div>
+
+                    <!-- Progress Loader -->
+                    <div class="progress-bar-container" id="progress-container" style="display: none;">
+                        <div class="progress-bar" id="progress-bar"></div>
+                    </div>
                 </div>
+
                 <div class="toast" id="toast">Copied to clipboard!</div>
             </div>
         </div>
