@@ -10,13 +10,15 @@
 </head>
 <body>
     <div class="app-container">
-        <!-- Header -->
-        <header class="header">
-            <div class="logo-container">
-                <span class="logo-emoji">🎬</span>
-                <h1>Follow-Up <span class="gradient-text">Genius</span></h1>
+        <!-- Hero Section -->
+        <header class="hero">
+            <div class="hero-content">
+                <div class="logo-container">
+                    <span class="logo-emoji">🎬</span>
+                    <h1>Follow-Up <span class="gradient-text">Genius</span></h1>
+                </div>
+                <p class="subtitle">Transform stale sales outreach into engaging, personalized moments with one click.</p>
             </div>
-            <p class="subtitle">Turn boring sales follow-ups into laugh-out-loud moments.</p>
         </header>
 
         <!-- Main Search Section -->
@@ -85,6 +87,7 @@
                     </div>
                     <div class="personalize-body" id="personalize-body">
                         <div class="form-group">
+                            <p class="input-helper">✨ Add your message and we'll place it on the GIF</p>
                             <label for="overlay-text">Overlay Text</label>
                             <input type="text" id="overlay-text" class="setup-input" placeholder="e.g. Hey Sarah!" autocomplete="off" maxlength="40">
                         </div>
@@ -144,28 +147,12 @@
 
         <!-- Footer -->
         <footer class="footer">
-            <p>Powered by <a href="https://giphy.com" target="_blank" rel="noopener">GIPHY</a> · <button id="change-key-btn" class="change-key-link">Change API Key</button></p>
+            <p>Powered by <a href="https://giphy.com" target="_blank" rel="noopener">GIPHY</a></p>
+            <p class="brand-footer">Made with ❤️ by <a href="https://www.linkedin.com/in/mihirwithaggarwal/" target="_blank" rel="noopener">Mihir Aggarwal</a></p>
         </footer>
     </div>
 
-    <!-- API Key Setup Modal -->
-    <div class="setup-overlay" id="setup-overlay">
-        <div class="setup-modal">
-            <div class="setup-icon">🔑</div>
-            <h2 class="setup-title">Connect to GIPHY</h2>
-            <p class="setup-desc">You'll need a free Giphy API key to fetch GIFs. It takes 30 seconds:</p>
-            <ol class="setup-steps">
-                <li>Go to <a href="https://developers.giphy.com" target="_blank" rel="noopener">developers.giphy.com</a></li>
-                <li>Create a free account & click <strong>"Create an App"</strong></li>
-                <li>Select <strong>"API"</strong> → name it anything → copy your key</li>
-            </ol>
-            <div class="setup-input-wrapper">
-                <input type="text" id="api-key-input" class="setup-input" placeholder="Paste your GIPHY API key here">
-                <button id="save-key-btn" class="setup-save-btn">Save & Go</button>
-            </div>
-            <button id="skip-key-btn" class="setup-skip">Skip for now (search won't work)</button>
-        </div>
-    </div>
+
 
     <!-- Global Toast -->
     <div class="global-toast" id="global-toast"></div>
