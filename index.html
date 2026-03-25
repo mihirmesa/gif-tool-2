@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GIF That Follow-Up</title>
+    <!-- Modern typography for a premium feel -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo-container">
+                <span class="logo-emoji">🎬</span>
+                <h1>Follow-Up <span class="gradient-text">Genius</span></h1>
+            </div>
+            <p class="subtitle">Turn boring sales follow-ups into laugh-out-loud moments.</p>
+        </header>
+
+        <!-- Main Search Section -->
+        <main class="main-content">
+            <div class="search-container">
+                <div class="input-wrapper">
+                    <input type="text" id="phrase-input" placeholder="e.g. 'Just checking in' or 'Circling back'" autocomplete="off">
+                    <button id="search-btn" class="glow-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                        Find GIFs
+                    </button>
+                </div>
+            </div>
+
+            <!-- Predefined Categories / Chips -->
+            <div class="categories" id="category-chips">
+                <!-- Injected via JS -->
+            </div>
+            
+            <div class="keyword-display" id="keyword-display" style="display: none;">
+                <span>Searching: </span>
+                <div class="keyword-tags" id="keyword-tags"></div>
+            </div>
+        </main>
+
+        <!-- Results Section -->
+        <section class="results-section">
+            <div class="empty-state" id="empty-state">
+                <div class="empty-icon">👋</div>
+                <p>Type a phrase or click a category above to find the perfect GIF.</p>
+            </div>
+            
+            <div class="gif-grid" id="gif-grid">
+                <!-- GIFs injected via JS -->
+            </div>
+            
+            <div class="loading-state" id="loading-state" style="display: none;">
+                <div class="loading-spinner"></div>
+                <p>Finding the perfect GIFs...</p>
+            </div>
+        </section>
+
+        <!-- GIF Preview Modal -->
+        <div class="modal-overlay" id="modal-overlay">
+            <div class="modal" id="gif-modal">
+                <button class="modal-close" id="modal-close">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 6L6 18"></path>
+                        <path d="M6 6l12 12"></path>
+                    </svg>
+                </button>
+                <div class="modal-gif-container">
+                    <div class="gif-wrapper" id="gif-wrapper">
+                        <img id="modal-gif" src="" alt="GIF Preview">
+                        <div id="text-preview" class="text-preview"></div>
+                    </div>
+                </div>
+                
+                <div class="personalize-section">
+                    <div class="personalize-header" id="personalize-toggle">
+                        <span>✨ Personalize GIF</span>
+                        <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                    <div class="personalize-body" id="personalize-body">
+                        <div class="form-group">
+                            <label for="overlay-text">Overlay Text</label>
+                            <input type="text" id="overlay-text" class="setup-input" placeholder="e.g. Hey Sarah!" autocomplete="off" maxlength="40">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group half">
+                                <label>Position</label>
+                                <div class="toggle-group">
+                                    <button class="toggle-btn active" data-pos="top">Top</button>
+                                    <button class="toggle-btn" data-pos="bottom">Bottom</button>
+                                </div>
+                            </div>
+                            <div class="form-group half">
+                                <label>Style</label>
+                                <div class="toggle-group">
+                                    <input type="color" id="text-color" value="#ffffff" class="color-picker" title="Text Color">
+                                    <button class="toggle-btn active icon-btn" id="toggle-outline" title="Toggle Outline">A</button>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="action-btn primary full-width" id="generate-gif-btn">
+                            <span id="generate-text">Generate Personalized GIF</span>
+                            <div class="progress-bar-container" id="progress-container" style="display: none;">
+                                <div class="progress-bar" id="progress-bar"></div>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button class="action-btn secondary" id="copy-link-btn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path>
+                        </svg>
+                        <span>Copy Link</span>
+                    </button>
+                    <button class="action-btn secondary" id="copy-gif-btn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"></path>
+                            <polyline points="16 6 12 2 8 6"></polyline>
+                            <line x1="12" y1="2" x2="12" y2="15"></line>
+                        </svg>
+                        <span>Copy GIF</span>
+                    </button>
+                    <button class="action-btn tertiary" id="download-btn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        <span>Download</span>
+                    </button>
+                </div>
+                <div class="toast" id="toast">Copied to clipboard!</div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Powered by <a href="https://giphy.com" target="_blank" rel="noopener">GIPHY</a> · <button id="change-key-btn" class="change-key-link">Change API Key</button></p>
+        </footer>
+    </div>
+
+    <!-- API Key Setup Modal -->
+    <div class="setup-overlay" id="setup-overlay">
+        <div class="setup-modal">
+            <div class="setup-icon">🔑</div>
+            <h2 class="setup-title">Connect to GIPHY</h2>
+            <p class="setup-desc">You'll need a free Giphy API key to fetch GIFs. It takes 30 seconds:</p>
+            <ol class="setup-steps">
+                <li>Go to <a href="https://developers.giphy.com" target="_blank" rel="noopener">developers.giphy.com</a></li>
+                <li>Create a free account & click <strong>"Create an App"</strong></li>
+                <li>Select <strong>"API"</strong> → name it anything → copy your key</li>
+            </ol>
+            <div class="setup-input-wrapper">
+                <input type="text" id="api-key-input" class="setup-input" placeholder="Paste your GIPHY API key here">
+                <button id="save-key-btn" class="setup-save-btn">Save & Go</button>
+            </div>
+            <button id="skip-key-btn" class="setup-skip">Skip for now (search won't work)</button>
+        </div>
+    </div>
+
+    <!-- Global Toast -->
+    <div class="global-toast" id="global-toast"></div>
+
+    <!-- Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/gif.js@0.2.0/dist/gif.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
