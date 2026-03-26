@@ -52,16 +52,18 @@ body {
         radial-gradient(circle at 0% 0%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
         radial-gradient(circle at 100% 100%, rgba(168, 85, 247, 0.1) 0%, transparent 40%);
     background-attachment: fixed;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .app-container {
     width: 100%;
     max-width: 1100px;
     margin: 0 auto;
-    padding: 60px 24px;
+    padding: clamp(32px, 8vw, 60px) clamp(16px, 4vw, 24px);
     display: flex;
     flex-direction: column;
-    gap: 48px;
+    gap: clamp(24px, 6vw, 48px);
 }
 
 .brand-footer {
@@ -129,7 +131,7 @@ body {
 }
 
 h1 {
-    font-size: 48px;
+    font-size: clamp(32px, 8vw, 48px);
     font-weight: 900;
     letter-spacing: -0.04em;
     line-height: 1.1;
@@ -144,7 +146,7 @@ h1 {
 }
 
 .subtitle {
-    font-size: 18px;
+    font-size: clamp(15px, 3vw, 18px);
     color: var(--text-secondary);
     margin-top: 16px;
     font-weight: 400;
@@ -185,6 +187,27 @@ h1 {
     backdrop-filter: blur(20px);
     box-shadow: var(--shadow-heavy);
     transition: var(--transition-smooth);
+    gap: 12px;
+}
+
+@media (max-width: 600px) {
+    .input-wrapper {
+        flex-direction: column;
+        padding: 12px;
+        border-radius: 20px;
+    }
+    
+    #phrase-input {
+        text-align: center;
+        width: 100%;
+        padding: 8px 0 !important;
+    }
+    
+    .glow-btn {
+        width: 100%;
+        justify-content: center;
+        height: 52px !important;
+    }
 }
 
 .input-wrapper:focus-within {
@@ -383,11 +406,22 @@ h1 {
     border-radius: 32px;
     width: 100%;
     max-width: 600px;
-    overflow: hidden;
+    max-height: 95vh;
+    overflow-y: auto;
     position: relative;
     box-shadow: var(--shadow-heavy);
     transform: scale(0.9) translateY(40px);
     transition: var(--transition-smooth);
+}
+
+@media (max-width: 650px) {
+    .modal {
+        max-height: 100vh;
+        height: 100%;
+        border-radius: 0;
+        display: flex;
+        flex-direction: column;
+    }
 }
 
 .modal-overlay.active .modal {
@@ -398,11 +432,11 @@ h1 {
     position: absolute;
     top: 20px;
     right: 20px;
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.1);
     border: none;
     color: white;
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -447,7 +481,19 @@ h1 {
 .modal-gif-container img {
     max-width: 100%;
     max-height: 450px;
+    height: auto;
     object-fit: contain;
+}
+
+@media (max-width: 650px) {
+    .modal-gif-container {
+        padding: 0 16px;
+        margin-bottom: 12px;
+    }
+    
+    .modal-gif-container img {
+        max-height: 35vh;
+    }
 }
 
 .text-preview {
@@ -460,12 +506,18 @@ h1 {
     line-height: 1;
     padding: 10px;
     pointer-events: none;
-    font-size: 40px;
+    font-size: clamp(20px, 10vw, 40px);
     -webkit-text-stroke: 2px black;
 }
 
 .text-preview[data-pos="top"] { top: 0; }
 .text-preview[data-pos="bottom"] { bottom: 0; }
+
+@media (max-width: 650px) {
+    .text-preview {
+        -webkit-text-stroke: 1px black;
+    }
+}
 
 /* ===== Personalization Panel ===== */
 .personalize-section {
@@ -577,6 +629,17 @@ h1 {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 12px;
+}
+
+@media (max-width: 500px) {
+    .modal-actions {
+        grid-template-columns: 1fr;
+        padding: 16px 20px 24px;
+    }
+    
+    .personalize-section {
+        padding: 20px 20px;
+    }
 }
 
 .action-btn {
