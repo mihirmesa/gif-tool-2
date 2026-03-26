@@ -73,60 +73,68 @@
                     </svg>
                 </button>
 
-                <!-- Modern Modal Header -->
+                <!-- Modal Header -->
                 <div class="modal-header">
-                    <h2 id="modal-title">✨ Personalize Your GIF</h2>
+                    <h2 id="modal-title">✨ Personalize GIF</h2>
                 </div>
 
-                <!-- GIF Preview Card (Top) -->
+                <!-- GIF Preview Card -->
                 <div class="modal-gif-container">
-                    <div class="gif-wrapper" id="gif-wrapper">
+                    <div class="gif-wrapper">
                         <img id="modal-gif" src="" alt="GIF Preview">
-                        <div id="text-preview" class="pill-preview">
-                            <span id="preview-inner-text">Your Message Here</span>
-                            <span class="edit-icon">✏️</span>
+                        <div id="text-preview" class="text-preview" data-pos="bottom"></div>
+                    </div>
+                </div>
+
+                <!-- Personalization Panel -->
+                <div class="personalize-section">
+                    <div class="personalize-header" id="personalize-toggle">
+                        <span>✨ Personalize GIF</span>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="personalize-body" id="personalize-body">
+                        <div class="form-group">
+                            <label>Overlay Text</label>
+                            <input type="text" id="overlay-text" class="setup-input" placeholder="e.g. Hope you're having a great week!" maxlength="40">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Position</label>
+                            <div class="toggle-group">
+                                <button class="toggle-btn" data-pos="top">Top</button>
+                                <button class="toggle-btn active" data-pos="bottom">Bottom</button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Style</label>
+                            <div class="style-controls">
+                                <input type="color" id="text-color" value="#ffffff">
+                                <button class="toggle-btn active" id="toggle-outline">Outline</button>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Personalization Controls (Below) -->
-                <div class="personalize-form">
-                    <div class="form-group">
-                        <input type="text" id="overlay-text" class="modern-input" placeholder="e.g. Congrats on the deal!" autocomplete="off" maxlength="40">
-                    </div>
+                <!-- Actions -->
+                <div class="modal-actions">
+                    <button class="action-btn primary" id="generate-gif-btn">
+                        <span id="generate-text">Generate Personalized GIF</span>
+                    </button>
+                    <button class="action-btn secondary" id="copy-link-btn">
+                        <span>Copy Link</span>
+                    </button>
+                    <button class="action-btn secondary" id="copy-gif-btn">
+                        <span>Copy GIF</span>
+                    </button>
+                    <button class="action-btn secondary" id="download-btn">
+                        <span>Download</span>
+                    </button>
+                </div>
 
-                    <!-- Quick Suggestions -->
-                    <div class="suggestion-chips" id="suggestion-chips">
-                        <button class="suggest-chip">Saw your post! 👀</button>
-                        <button class="suggest-chip">Let’s connect! 🤝</button>
-                        <button class="suggest-chip">This made me think of you 🔥</button>
-                    </div>
-
-                    <!-- Tone Selector -->
-                    <div class="tone-section">
-                        <span class="section-label">Tones</span>
-                        <div class="tone-pills" id="tone-pills">
-                            <button class="tone-pill active" data-tone="friendly">Friendly</button>
-                            <button class="tone-pill" data-tone="casual">Casual</button>
-                            <button class="tone-pill" data-tone="professional">Professional</button>
-                            <button class="tone-pill" data-tone="flirty">Flirty</button>
-                        </div>
-                    </div>
-
-                    <!-- CTA Buttons -->
-                    <div class="cta-group">
-                        <button class="action-btn primary large-btn" id="generate-gif-btn">
-                            <span id="generate-text">Make My GIF 🚀</span>
-                        </button>
-                        <button class="action-btn secondary outline-btn" id="copy-link-btn">
-                            <span>Copy GIF Link</span>
-                        </button>
-                    </div>
-
-                    <!-- Progress Loader -->
-                    <div class="progress-bar-container" id="progress-container" style="display: none;">
-                        <div class="progress-bar" id="progress-bar"></div>
-                    </div>
+                <!-- Progress Loader -->
+                <div class="progress-bar-container" id="progress-container" style="display: none;">
+                    <div class="progress-bar" id="progress-bar"></div>
                 </div>
 
                 <div class="toast" id="toast">Copied to clipboard!</div>
